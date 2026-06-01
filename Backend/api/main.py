@@ -1,3 +1,4 @@
+import os
 import time
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
@@ -21,7 +22,10 @@ EMERGENCY_LOCATOR: Any = None
 async def lifespan(_fastapi_app: FastAPI):  # <-- 'fastapi_app' para evitar el Shadowing
     global GRAPH, NODES_LIST, DATA_TREE, EMERGENCY_LOCATOR
 
-    csv_path = "unified_medellin_data.csv"
+
+    # Esto averigua automáticamente dónde está parado este archivo y busca la carpeta Data
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    csv_path = os.path.join(BASE_DIR, "Data", "unified_medellin_data.csv")
 
     print(f"[API] Cargando grafo para Medellín...")
     GRAPH = build_medellin_graph(csv_path)
