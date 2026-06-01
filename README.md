@@ -62,7 +62,7 @@ Sigue estos pasos para correr el proyecto en tu máquina local:
 
 ### 1. Clonar el repositorio
 ```bash
-git clone [https://github.com/TU_USUARIO/SafeRouteMedellin.git]
+git clone https://github.com/JuanHoyos00/SafeRouteMedellin.git
 cd SafeRouteMedellin
 ```
 
@@ -100,7 +100,7 @@ Simplemente abre el archivo `Frontend/index.html` en tu navegador de preferencia
 
 ¿Quieres ver a **SafeRouteMedellín** en acción sin descargar nada? Entra a nuestra plataforma interactiva y calcula tu primera ruta segura haciendo clic en el enlace de abajo:
 
-🚀 **[Visitar la Aplicación Web Oficial](https://TU_LINK_AQUI.vercel.app)**
+🚀 **[Visitar la Aplicación Web Oficial](https://safe-route-medellin-lf78.vercel.app/)**
 
 > *💡 **Tip de uso:** Para una experiencia óptima en el Live Demo, activa el mapa de calor (Heatmap) y explora los ajustes de los algoritmos usando el panel de control lateral.*
 *Desarrollado con ❤️ para mejorar la movilidad segura en Medellín.*
