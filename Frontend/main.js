@@ -1,5 +1,5 @@
 // Configuración del endpoint local de FastAPI
-const BASE_URL = 'http://127.0.0.1:8000/api';
+const BASE_URL = 'https://web-production-3ee6f.up.railway.app/api';
 
 // Inicialización del mapa centrado en Medellín con optimización de Canvas
 const map = L.map('map', {
