@@ -3,148 +3,390 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeRoute Medellín - Panel de Control</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="style.css">
+    <title>SafeRouteMedellín - Inicio y Documentación</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* VARIABLES PARA CLARO / OSCURO */
+        :root {
+            --bg-principal: #0f172a;
+            --bg-tarjetas: #1e293b;
+            --borde-tarjetas: rgba(255, 255, 255, 0.05);
+            --texto-principal: #f8fafc;
+            --texto-secundario: #94a3b8;
+            --color-primario: #0ea5e9;
+            --color-secundario: #38bdf8;
+            --color-exito: #10b981;
+            --color-error: #ef4444;
+            --sombras: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-principal: #f8fafc;
+            --bg-tarjetas: #ffffff;
+            --borde-tarjetas: rgba(15, 23, 42, 0.08);
+            --texto-principal: #0f172a;
+            --texto-secundario: #475569;
+            --color-primario: #0284c7;
+            --color-secundario: #0ea5e9;
+            --sombras: rgba(15, 23, 42, 0.1);
+        }
+
+        /* ESTILOS BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-principal);
+            color: var(--texto-principal);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        .contenedor {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* BARRA DE NAVEGACIÓN */
+        navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--borde-tarjetas);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-primario);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-tema {
+            background: var(--bg-tarjetas);
+            border: 1px solid var(--borde-tarjetas);
+            color: var(--texto-principal);
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 6px var(--sombras);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            text-align: center;
+            padding: 80px 0 60px 0;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--color-primario), #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--texto-secundario);
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* BOTÓN DE ACCIÓN CENTRAL */
+        .btn-principal {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, var(--color-primario), #7c3aed);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 22px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4);
+            transform: translateY(0);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-principal:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.5);
+        }
+
+        /* SECCIONES CONTENIDO */
+        .seccion {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--borde-tarjetas);
+        }
+
+        .titulo-seccion {
+            font-size: 32px;
+            margin-bottom: 40px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .titulo-seccion::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            bottom: 5px;
+            width: 5px;
+            background-color: var(--color-primario);
+            border-radius: 10px;
+        }
+
+        /* GRID / TARJETAS */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .tarjeta {
+            background-color: var(--bg-tarjetas);
+            border: 1px solid var(--borde-tarjetas);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px var(--sombras);
+        }
+
+        .tarjeta-icono {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--color-primario);
+        }
+
+        .tarjeta h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .tarjeta p {
+            color: var(--texto-secundario);
+        }
+
+        /* TABLA MANUAL DE USUARIO */
+        .tabla-contenedor {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--borde-tarjetas);
+            box-shadow: 0 4px 20px var(--sombras);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-tarjetas);
+            text-align: left;
+        }
+
+        th, td {
+            padding: 20px;
+            border-bottom: 1px solid var(--borde-tarjetas);
+        }
+
+        th {
+            background-color: rgba(14, 165, 233, 0.1);
+            color: var(--color-primario);
+            font-weight: 600;
+        }
+
+        .badge-hacer { color: var(--color-exito); font-weight: 600; }
+        .badge-nohacer { color: var(--color-error); font-weight: 600; }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--texto-secundario);
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 38px; }
+            .hero p { font-size: 16px; }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="app-container">
+    <div class="contenedor">
+        <navbar>
+            <div class="logo">🗺️ SafeRouteMedellín</div>
+            <button class="btn-tema" id="toggleTema">
+                <i class="fa-solid fa-moon" id="iconoTema"></i> <span id="textoTema">Modo Oscuro</span>
+            </button>
+        </navbar>
 
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2>SafeRoute Med</h2>
-                <button id="theme-toggle" class="btn-icon">🌓 Mode</button>
-            </div>
+        <section class="hero">
+            <h1>Navegación Peatonal Inteligente y Segura</h1>
+            <p>Una plataforma diseñada para proteger tus pasos en Medellín, integrando algoritmos de optimización avanzados y mapas dinámicos de percepción de seguridad urbana.</p>
+            <a href="mapa.html" class="btn-principal">
+                🚀 Ir al Mapa Interactivo <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </section>
 
-            <div class="control-group">
-                <h3>Visualización</h3>
-                <label class="switch-container">
-                    <input type="checkbox" id="heatmap-toggle">
-                    <span class="slider-switch"></span>
-                    Mostrar Mapa de Calor (Riesgo Real)
-                </label>
-            </div>
-
-            <div class="control-group">
-                <h3>Configuración de Ruta</h3>
-
-                <div class="point-selector">
-                    <label>Origen (Lat, Lon):</label>
-                    <input type="text" id="origin-input" placeholder="Haga clic en el mapa o elija opción">
-                    <div class="button-row">
-                        <button id="btn-pick-origin" class="btn-sub">📍 Mapa</button>
-                        <button id="btn-gps-origin" class="btn-sub">🛰️ GPS</button>
-                        <select id="select-barrio-origin" class="select-barrio">
-                            <option value="">-- Barrio --</option>
-                            <option value="6.2083,-75.5675">El Poblado</option>
-                            <option value="6.2442,-75.5912">Laureles</option>
-                            <option value="6.2518,-75.5636">Centro / Candelaria</option>
-                            <option value="6.2914,-75.5586">Aranjuez</option>
-                            <option value="6.2674,-75.5878">Robledo</option>
-                            <option value="6.2312,-75.6104">Belén</option>
-                            <option value="6.3375,-75.5521">Bello</option>
-                            <option value="6.1738,-75.6041">Envigado</option>
-                        </select>
-                    </div>
+        <section class="seccion">
+            <h2 class="titulo-seccion">1. Contexto Social y Problemática en Medellín 📉</h2>
+            <div class="grid-2">
+                <div>
+                    <p style="margin-bottom: 20px;">Medellín es un referente mundial de resiliencia, pero la seguridad en sus calles sigue siendo un reto complejo. Problemáticas como el hurto callejero y de manera muy crítica el <strong>acoso en el espacio público</strong> afectan a miles de ciudadanos a diario.</p>
+                    <p style="color: var(--texto-secundario);">Las aplicaciones tradicionales de mapas (Google Maps o Waze) calculan rutas basadas únicamente en el <strong>menor tiempo o menor distancia</strong>. Esto ocasiona que, de forma involuntaria, guíen a los peatones por calles desoladas, oscuras o con altos índices delincuenciales, exponiéndolos al peligro.</p>
                 </div>
-
-                <div class="point-selector">
-                    <label>Destino (Lat, Lon):</label>
-                    <input type="text" id="destination-input" placeholder="Haga clic en el mapa o elija opción">
-                    <div class="button-row">
-                        <button id="btn-pick-destination" class="btn-sub">📍 Mapa</button>
-                        <button id="btn-gps-destination" class="btn-sub">🛰️ GPS</button>
-                        <select id="select-barrio-destination" class="select-barrio">
-                            <option value="">-- Barrio --</option>
-                            <option value="6.2083,-75.5675">El Poblado</option>
-                            <option value="6.2442,-75.5912">Laureles</option>
-                            <option value="6.2518,-75.5636">Centro / Candelaria</option>
-                            <option value="6.2914,-75.5586">Aranjuez</option>
-                            <option value="6.2674,-75.5878">Robledo</option>
-                            <option value="6.2312,-75.6104">Belén</option>
-                            <option value="6.3375,-75.5521">Bello</option>
-                            <option value="6.1738,-75.6041">Envigado</option>
-                        </select>
-                    </div>
+                <div class="tarjeta" style="border-left: 5px solid var(--color-error); background: rgba(239, 68, 68, 0.05);">
+                    <h3 style="color: var(--color-error);"><i class="fa-solid fa-triangle-exclamation"></i> El Factor Acoso</h3>
+                    <p style="margin-top: 10px;">Estudios urbanos demuestran que más del 85% de las mujeres cambian sus rutas habituales o restringen sus horarios de salida por miedo al acoso callejero. SafeRouteMedellín nace para responder directamente a esta necesidad de protección.</p>
                 </div>
             </div>
+        </section>
 
-            <div class="control-group">
-                <h3>Algoritmo y Animación</h3>
-                <select id="algo-mode">
-                    <option value="both">Comparar Ambos Algoritmos</option>
-                    <option value="astar">Solo A* (Estrella)</option>
-                    <option value="greedy">Solo Greedy (Voraz)</option>
-                </select>
-
-                <select id="render-type">
-                    <option value="animation">Ver Animación (Pulpo / Culebra)</option>
-                    <option value="instant">Ruta Definitiva de una vez</option>
-                </select>
-            </div>
-
-            <div class="control-group">
-                <div class="slider-header">
-                    <span>⚡ Rapidez (Alpha)</span>
-                    <span>🛡️ Seguridad (Beta)</span>
+        <section class="seccion">
+            <h2 class="titulo-seccion">2. ¿Cómo lo Solucionamos? 🧠</h2>
+            <div class="grid-3">
+                <div class="tarjeta">
+                    <div class="tarjeta-icono"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3>Enrutamiento Multi-Objetivo</h3>
+                    <p>No te damos solo la ruta más corta. Evaluamos el entorno para darte la opción donde te sientas más tranquilo y protegido.</p>
                 </div>
-                <input type="range" id="balance-slider" min="0" max="1" step="0.1" value="0.5">
-                <div class="slider-values">
-                    <span id="alpha-val">Alpha: 0.5</span>
-                    <span id="beta-val">Beta: 0.5</span>
+                <div class="tarjeta">
+                    <div class="tarjeta-icono"><i class="fa-solid fa-sliders"></i></div>
+                    <h3>Controles Alpha (&alpha;) y Beta (&beta;)</h3>
+                    <p>Tú controlas el mapa. Ajusta si deseas priorizar la rapidez del trayecto o maximizar el blindaje contra zonas de delincuencia y acoso.</p>
+                </div>
+                <div class="tarjeta">
+                    <div class="tarjeta-icono"><i class="fa-solid fa-bolt"></i></div>
+                    <h3>Algoritmos A* y Greedy</h3>
+                    <p>Implementamos soluciones de inteligencia geoespacial para calcular alternativas óptimas sobre el grafo vial de Medellín en milisegundos.</p>
                 </div>
             </div>
+        </section>
 
-            <button id="btn-calculate" class="btn-primary">⚡ Calcular Ruta Optimizada</button>
-            <button id="btn-clear" class="btn-sub" style="width: 100%; margin-top: 10px; border-color: var(--emergency-color); color: var(--emergency-color);">🗑️ Limpiar Mapa</button>
+        <section class="seccion">
+            <h2 class="titulo-seccion">3. Manual de Usuario 📖</h2>
+            <p style="margin-bottom: 20px; color: var(--texto-secundario);">Sigue estas pautas y buenas prácticas operativas para interactuar de forma correcta con el sistema y evitar bloqueos en el renderizado:</p>
 
-            <button id="btn-toggle-metrics" class="btn-sub" style="width: 100%; margin-top: 5px;">📊 Mostrar / Ocultar Métricas</button>
-            <div class="control-group emergency-section">
-                <h3>🚨 Atención Inmediata</h3>
-                <p class="emergency-desc">Busca el punto de apoyo más seguro usando tus criterios de balance.</p>
-                <div class="button-row">
-                    <button id="btn-emergency-cai" class="btn-emergency">👮 Buscar CAI Cercano</button>
-                    <button id="btn-emergency-hosp" class="btn-emergency">🏥 Buscar Hospital</button>
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Directriz</th>
+                            <th><span class="badge-hacer">✅ Qué Hacer</span></th>
+                            <th><span class="badge-nohacer">❌ Qué NO Hacer</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Trazado de Rutas</strong></td>
+                            <td>Usa el modo clic ("Pick Mode") para seleccionar puntos exactos sobre las calles.</td>
+                            <td>No intentes escribir coordenadas manuales rotas en las cajas de texto.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Navegación Nocturna</strong></td>
+                            <td>Sube el nivel del Slider Alpha (&alpha;) para forzar rutas por avenidas iluminadas y vigiladas.</td>
+                            <td>No uses la ruta tradicional directa si transitas de noche por el Centro o El Poblado.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cálculo en Progreso</strong></td>
+                            <td>Espera a que la animación del Canvas termine de dibujar los nodos y la línea final.</td>
+                            <td>No recargues la página bruscamente mientras los hilos de cálculo estén activos.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cambio de Trayecto</strong></td>
+                            <td>Oprime el botón "Limpieza Total" (Clear) antes de marcar un nuevo origen o destino.</td>
+                            <td>No superpongas rutas múltiples sin limpiar el mapa previo, evitarás saturación de memoria.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Situación de Peligro</strong></td>
+                            <td>Usa los botones rápidos de Emergencia para ubicar el CAI o Centro Médico más cercano en milisegundos.</td>
+                            <td>No asumas que la app reemplaza el canal de llamadas oficial del Estado (Línea Única 123).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="seccion" style="text-align: center;">
+            <h2 class="titulo-seccion" style="display: inline-block; text-align: left;">4. Características Clave de la Interfaz 🎨</h2>
+            <div class="grid-2" style="text-align: left; margin-top: 30px;">
+                <div class="tarjeta">
+                    <h3><i class="fa-solid fa-circle-half-stroke" style="color: var(--color-primario);"></i> Adaptabilidad Visual</h3>
+                    <p style="margin-top: 10px;">Cuenta con este sistema Claro y Oscuro nativo. Diseñado con azulejos de mapa especiales para cuidar tu visión en la oscuridad y brindarte discreción táctica en entornos públicos de alta vulnerabilidad.</p>
+                </div>
+                <div class="tarjeta">
+                    <h3><i class="fa-solid fa-map-location-dot" style="color: var(--color-exito);"></i> Capas Dinámicas (Heatmaps)</h3>
+                    <p style="margin-top: 10px;">Puedes activar o desactivar mapas de calor visuales directamente sobre la cuadrícula urbana para identificar los cuadrantes de riesgo peatonal antes de iniciar tu marcha.</p>
                 </div>
             </div>
-        </aside>
+        </section>
 
-        <main id="map" class="map-area"></main>
+        <section class="hero" style="padding: 60px 0;">
+            <h2>¿Listo para experimentar una ruta protegida?</h2>
+            <p style="margin-top: 10px; margin-bottom: 30px;">Ingresa ahora al módulo de mapas interactivo y toma el control de tu seguridad vial en Medellín.</p>
+            <a href="mapa.html" class="btn-principal">
+                🚀 Lanzar Mapa Seguro
+            </a>
+        </section>
 
-        <footer class="metrics-panel">
-            <div class="metric-card header-card">
-                <h3>Métricas de Rendimiento</h3>
-                <p>Resultados del Grafo Vial</p>
-            </div>
-
-            <div class="metric-card algo-ast" id="metrics-astar">
-                <h4>Algoritmo A* (Pulpo)</h4>
-                <div class="grid-metrics">
-                    <div>Nodos Explorados: <strong id="ast-explored">-</strong></div>
-                    <div>Tiempo Ejecución: <strong id="ast-time">-</strong></div>
-                    <div>Nodos en Ruta: <strong id="ast-nodes">-</strong></div>
-                    <div>Costo Algorítmico: <strong id="ast-cost">-</strong></div>
-                    <div>Distancia Real: <strong id="ast-dist">-</strong></div>
-                </div>
-            </div>
-
-            <div class="metric-card algo-gre" id="metrics-greedy">
-                <h4>Algoritmo Greedy (Culebra)</h4>
-                <div class="grid-metrics">
-                    <div>Nodos Explorados: <strong id="gre-explored">-</strong></div>
-                    <div>Tiempo Ejecución: <strong id="gre-time">-</strong></div>
-                    <div>Nodos en Ruta: <strong id="gre-nodes">-</strong></div>
-                    <div>Costo Algorítmico: <strong id="gre-cost">-</strong></div>
-                    <div>Distancia Real: <strong id="gre-dist">-</strong></div>
-                </div>
-            </div>
+        <footer>
+            <p>SafeRouteMedellín &copy; 2026 | Desarrollo Tecnológico con Sentido Social e Impacto Urbano</p>
         </footer>
-
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
-    <script src="main.js"></script>
+    <script>
+        const btnTema = document.getElementById('toggleTema');
+        const iconoTema = document.getElementById('iconoTema');
+        const textoTema = document.getElementById('textoTema');
+
+        // Escuchar el clic en el botón de cambio de tema
+        btnTema.addEventListener('click', () => {
+            const temaActual = document.documentElement.getAttribute('data-theme');
+
+            if (temaActual === 'light') {
+                document.documentElement.removeAttribute('data-theme');
+                iconoTema.className = 'fa-solid fa-moon';
+                textoTema.innerText = 'Modo Oscuro';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                iconoTema.className = 'fa-solid fa-sun';
+                textoTema.innerText = 'Modo Claro';
+            }
+        });
+    </script>
 </body>
 </html>
