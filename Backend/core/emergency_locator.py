@@ -15,9 +15,9 @@ class EmergencyLocator:
         self._load_data()
 
     def _load_data(self):
-        # Rutas relativas hacia la carpeta Data
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        data_dir = os.path.join(base_dir, "..", "Data")
+        # Usamos la misma lógica infalible de main.py
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        data_dir = os.path.join(base_dir, "Data")
 
         # ==========================================
         # 1. CARGAR CAIs Y ESTACIONES DE POLICÍA
@@ -25,18 +25,17 @@ class EmergencyLocator:
         cai_path = os.path.join(data_dir, "cai_valle_aburra_con_coordenadas.csv")
         if os.path.exists(cai_path):
             df_cai = pd.read_csv(cai_path)
-            # Limpiar filas que no tengan coordenadas
             df_cai = df_cai.dropna(subset=['latitud', 'longitud'])
 
             cai_coords = []
             for _, row in df_cai.iterrows():
-                # KDTree usa (longitud, latitud) para mantener consistencia con tu API
-                cai_coords.append((row['longitud'], row['latitud']))
+                # Forzamos los tipos nativos float() para evitar el colapso del JSON
+                cai_coords.append((float(row['longitud']), float(row['latitud'])))
                 self.cai_data.append({
-                    "name": row.get('cai', 'CAI Sin Nombre'),
-                    "address": row.get('direccion', 'Dirección no disponible'),
-                    "lat": row['latitud'],
-                    "lon": row['longitud']
+                    "name": str(row.get('cai', 'CAI Sin Nombre')),
+                    "address": str(row.get('direccion', 'Dirección no disponible')),
+                    "lat": float(row['latitud']),  # <-- ¡La magia está aquí!
+                    "lon": float(row['longitud'])  # <-- ¡Y aquí!
                 })
 
             if cai_coords:
@@ -50,24 +49,22 @@ class EmergencyLocator:
         if os.path.exists(hosp_path):
             df_hosp = pd.read_csv(hosp_path)
             df_hosp = df_hosp.dropna(subset=['latitud', 'longitud'])
-
-            # Filtramos para que solo arme el árbol con centros médicos
             df_hosp = df_hosp[df_hosp['tipo'].isin(['hospital', 'clinica'])]
 
             hosp_coords = []
             for _, row in df_hosp.iterrows():
-                hosp_coords.append((row['longitud'], row['latitud']))
+                # Forzamos los tipos nativos float() y str()
+                hosp_coords.append((float(row['longitud']), float(row['latitud'])))
                 self.hospital_data.append({
-                    "name": row.get('nombre', 'Centro Médico Sin Nombre'),
-                    "type": row['tipo'],
-                    "lat": row['latitud'],
-                    "lon": row['longitud']
+                    "name": str(row.get('nombre', 'Centro Médico Sin Nombre')),
+                    "type": str(row['tipo']),
+                    "lat": float(row['latitud']),
+                    "lon": float(row['longitud'])
                 })
 
             if hosp_coords:
                 self.hospital_tree = KDTree(hosp_coords)
                 print(f"[EmergencyLocator] {len(hosp_coords)} Hospitales/Clínicas indexados.")
-
     def get_nearest_cai(self, lon, lat):
         """Devuelve el CAI más cercano a las coordenadas dadas."""
         if not self.cai_tree:
