@@ -1,0 +1,316 @@
+/* VARIABLES DE DISEÑO (MODO CLARO POR DEFECTO) */
+:root {
+    --bg-main: #f4f6f9;
+    --bg-sidebar: #ffffff;
+    --bg-card: #f8fafc;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --accent-color: #3b82f6;
+    --accent-hover: #2563eb;
+    --emergency-color: #ef4444;
+    --emergency-hover: #dc2626;
+    --ast-color: #9333ea;
+    --gre-color: #059669;
+}
+
+/* INTERRUPTOR MODO OSCURO */
+body.dark-mode {
+    --bg-main: #0f172a;
+    --bg-sidebar: #1e293b;
+    --bg-card: #334155;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: #475569;
+    --accent-color: #3b82f6;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body, html {
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+/* ESTRUCTURA TRI-PANEL CON CSS GRID */
+.app-container {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    grid-template-rows: 1fr 160px;
+    grid-template-areas:
+        "sidebar map"
+        "metrics metrics";
+    height: 100vh;
+    width: 100vw;
+}
+
+/* PANEL IZQUIERDO: SIDEBAR */
+.sidebar {
+    grid-area: sidebar;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.control-group {
+    background-color: var(--bg-card);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.control-group h3 {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.point-selector {
+    margin-bottom: 10px;
+}
+
+.point-selector label {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+input[type="text"]:disabled, select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.button-row {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+button {
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-icon {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+.btn-sub {
+    flex: 1;
+    padding: 5px;
+    font-size: 11px;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    border-radius: 4px;
+}
+
+.btn-sub.active {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.select-barrio {
+    flex: 2;
+    margin-top: 5px;
+}
+
+/* SLIDER INTEGRADO */
+.slider-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#balance-slider {
+    width: 100%;
+    margin: 10px 0;
+}
+
+#balance-slider:disabled {
+    cursor: not-allowed;
+}
+
+.slider-values {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* BOTONES PRINCIPALES Y EMERGENCIA */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+}
+
+.btn-primary:disabled {
+    background-color: var(--border-color);
+    cursor: not-allowed;
+}
+
+.emergency-section {
+    border: 1px solid var(--emergency-color);
+}
+
+.emergency-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.btn-emergency {
+    flex: 1;
+    padding: 10px;
+    background-color: transparent;
+    border: 1px solid var(--emergency-color);
+    color: var(--emergency-color);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.btn-emergency:hover {
+    background-color: var(--emergency-color);
+    color: white;
+}
+
+/* MAP RECTANGLE */
+.map-area {
+    grid-area: map;
+    width: 100%;
+    height: 100%;
+}
+
+/* PANEL INFERIOR: METRICAS */
+.metrics-panel {
+    grid-area: metrics;
+    background-color: var(--bg-sidebar);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    padding: 15px;
+    gap: 15px;
+    z-index: 1001;
+}
+
+.metric-card {
+    flex: 1;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.header-card h3 {
+    font-size: 16px;
+    color: var(--accent-color);
+}
+
+.header-card p {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.metric-card h4 {
+    font-size: 13px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 4px;
+}
+
+.algo-ast h4 { color: var(--ast-color); }
+.algo-gre h4 { color: var(--gre-color); }
+
+.grid-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    font-size: 12px;
+}
+
+/* INTERRUPTOR SWITCH GENERAL */
+.switch-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* =========================================
+   NUEVOS ESTILOS PARA MARCADORES CIRCULARES
+   ========================================= */
+.custom-circle-marker {
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    transition: background-color 0.2s ease;
+}
+
+/* Azul profesional para origen (coincide con --accent-hover) */
+.marker-origin {
+    background-color: #2563eb;
+}
+
+/* Rojo profesional para destino (coincide con --emergency-color) */
+.marker-dest {
+    background-color: #ef4444;
+}
+/* =========================================
+   ESTADO: MÉTRICAS OCULTAS
+   ========================================= */
+.app-container.metrics-hidden {
+    grid-template-rows: 1fr 0px; /* Colapsa la fila inferior a 0 */
+}
+
+.app-container.metrics-hidden .metrics-panel {
+    display: none; /* Desaparece el contenido para evitar desbordamientos */
+}
