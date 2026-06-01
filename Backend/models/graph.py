@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import networkx as nx
 from ast import literal_eval
-from Backend.utils.math_utils import calculate_max_graph_distance
+from utils.math_utils import calculate_max_graph_distance
 
 
 def build_medellin_graph(file_name="unified_medellin_data.csv"):

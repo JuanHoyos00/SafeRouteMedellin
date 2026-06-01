@@ -1,5 +1,5 @@
 import heapq
-from Backend.utils.math_utils import heuristic_haversine
+from utils.math_utils import heuristic_haversine
 
 
 def algorithm_a_star(graph, origin, destination, alpha, beta):

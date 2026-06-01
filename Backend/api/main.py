@@ -5,10 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Dict, Any, Tuple  # <-- Agregamos Tuple
 
-from Backend.models.graph import build_medellin_graph
-from Backend.core.pathfinding_a_star_algorithm import algorithm_a_star
-from Backend.core.pathfinding_greedy_algorithm import algorithm_greedy
-from Backend.core.emergency_locator import EmergencyLocator
+from models.graph import build_medellin_graph
+from core.pathfinding_a_star_algorithm import algorithm_a_star
+from core.pathfinding_greedy_algorithm import algorithm_greedy
+from core.emergency_locator import EmergencyLocator
 
 # Variables globales con Type Hinting para calmar a PyCharm
 GRAPH: Any = None
